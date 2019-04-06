@@ -1,2 +1,7 @@
 # enex-dump-to-md
-enex dump convert to markdown.
+
+Nodejs script that accepts an Evernote export (ENEX) file and produces a folder of markdown text documents.
+
+**This is still under development and should only be used for testing.**
+
+This project is influenced from [panicsteve/enex-dump](https://github.com/panicsteve/enex-dump).

@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "luxon": "^1.12.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.16.4"
+  },
+  "scripts": {
+    "fmt": "prettier --write *.{js,json,md}"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}
