@@ -82,8 +82,9 @@ const enexDumpToMd = targetNote => {
     for (const note of noteList) {
       convertText(note, { author: true, created: true, updated: true });
     }
-  } catch (err) {
-    console.error(err);
+    return { status: 'success' };
+  } catch (error) {
+    return { status: 'error', error };
   }
 };
 
