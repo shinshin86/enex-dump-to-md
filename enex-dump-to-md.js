@@ -1,5 +1,11 @@
 'use strict';
-const { statSync, readFileSync, writeFileSync } = require('fs');
+const {
+  statSync,
+  readFileSync,
+  writeFileSync,
+  existsSync,
+  mkdirSync
+} = require('fs');
 const { resolve } = require('path');
 const { DateTime } = require('luxon');
 const cheerio = require('cheerio');
@@ -59,6 +65,11 @@ const convertMd = (title, optionText, content) => {
 (async () => {
   let inputFile = '';
   const outputDir = 'output';
+
+  if (!existsSync(outputDir)) {
+    mkdirSync(outputDir);
+  }
+
   if (process.argv[2]) {
     inputFile = process.argv[2];
   } else {
@@ -67,6 +78,7 @@ const convertMd = (title, optionText, content) => {
 
   console.log('INPUT FILE : ', inputFile);
   console.log('OUTPUT DIR : ', outputDir);
+
   try {
     statSync(inputFile);
 
