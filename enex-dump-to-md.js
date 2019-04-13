@@ -62,27 +62,20 @@ const convertMd = (title, optionText, content) => {
   }
 };
 
-(async () => {
-  let inputFile = '';
+const enexDumpToMd = targetNote => {
   const outputDir = 'output';
 
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir);
   }
 
-  if (process.argv[2]) {
-    inputFile = process.argv[2];
-  } else {
-    inputFile = 'My Notes.enex';
-  }
-
-  console.log('INPUT FILE : ', inputFile);
+  console.log('INPUT FILE : ', targetNote);
   console.log('OUTPUT DIR : ', outputDir);
 
   try {
-    statSync(inputFile);
+    statSync(targetNote);
 
-    const data = readFileSync(inputFile, 'utf8');
+    const data = readFileSync(targetNote, 'utf8');
     const $ = cheerio.load(data, { xmlMode: true });
 
     const noteList = $('note').toArray();
@@ -92,4 +85,6 @@ const convertMd = (title, optionText, content) => {
   } catch (err) {
     console.error(err);
   }
-})();
+};
+
+module.exports.enexDumpToMd = enexDumpToMd;
