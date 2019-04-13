@@ -4,9 +4,13 @@
     "luxon": "^1.12.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.3",
     "prettier": "^1.16.4"
   },
   "scripts": {
+    "start": "node main.js",
+    "test": "mocha",
     "fmt": "prettier --write *.{js,json,md}"
   },
   "prettier": {
