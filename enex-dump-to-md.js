@@ -6,7 +6,7 @@ const {
   existsSync,
   mkdirSync
 } = require('fs');
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const { DateTime } = require('luxon');
 const cheerio = require('cheerio');
 
@@ -36,7 +36,7 @@ const convertText = (data, option) => {
       resolve(process.cwd(), 'output', title + '.md'),
       mdText
     );
-    return result;
+    return `${title}.md`;
   } catch (err) {
     throw err;
   }
@@ -64,13 +64,13 @@ const convertMd = (title, optionText, content) => {
 
 const enexDumpToMd = targetNote => {
   const outputDir = 'output';
+  let outputFileName = '';
 
   if (!existsSync(outputDir)) {
     mkdirSync(outputDir);
   }
 
   console.log('INPUT FILE : ', targetNote);
-  console.log('OUTPUT DIR : ', outputDir);
 
   try {
     statSync(targetNote);
@@ -80,8 +80,10 @@ const enexDumpToMd = targetNote => {
 
     const noteList = $('note').toArray();
     for (const note of noteList) {
-      convertText(note, { author: true, created: true, updated: true });
+      outputFileName = convertText(note, { author: true, created: true, updated: true });
     }
+
+    console.log('OUTPUT DIR : ', join(outputDir, outputFileName));
     return { status: 'success' };
   } catch (error) {
     return { status: 'error', error };
