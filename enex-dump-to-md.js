@@ -18,16 +18,9 @@ const convertText = (data, option) => {
   const $ = cheerio.load(data, { xmlMode: true });
   const title = $('title').text();
 
-  let optionList = [];
+  let optionText = null;
 
-  if (!!Object.keys(option).length) optionList.push('\n```');
-  if (option.author) optionList.push(`\nauthor: ${$('author').text()}`);
-  if (option.created)
-    optionList.push(`\ncrated: ${getFormatDate($('created').text())}`);
-  if (option.updated)
-    optionList.push(`\nupdated: ${getFormatDate($('updated').text())}`);
-  if (!!Object.keys(option).length) optionList.push('\n```');
-  const optionText = optionList.join();
+  if (!!Object.keys(option).length) optionText = convertNoteOptions($, option);
 
   try {
     const mdText = convertMd(title, optionText, $('content').text());
@@ -40,6 +33,30 @@ const convertText = (data, option) => {
   } catch (err) {
     throw err;
   }
+};
+
+/*
+ * Convert Note options
+ */
+const convertNoteOptions = ($, option) => {
+  let optionList = [];
+
+  optionList.push('\n```');
+
+  // If have a info of author
+  if (option.author) optionList.push(`\nauthor: ${$('author').text()}`);
+
+  // If have a info of created
+  if (option.created)
+    optionList.push(`\ncrated: ${getFormatDate($('created').text())}`);
+
+  // If have a info of updated
+  if (option.updated)
+    optionList.push(`\nupdated: ${getFormatDate($('updated').text())}`);
+
+  optionList.push('\n```');
+
+  return optionList.join();
 };
 
 const convertMd = (title, optionText, content) => {
@@ -80,7 +97,11 @@ const enexDumpToMd = targetNote => {
 
     const noteList = $('note').toArray();
     for (const note of noteList) {
-      outputFileName = convertText(note, { author: true, created: true, updated: true });
+      outputFileName = convertText(note, {
+        author: true,
+        created: true,
+        updated: true
+      });
     }
 
     console.log('OUTPUT DIR : ', join(outputDir, outputFileName));
